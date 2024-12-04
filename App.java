@@ -7,7 +7,7 @@ public class App {
         String name;
         int age;
         String program;
-          String code;
+
         
         public Student(String studentID, String name, int age, String program) {
             this.studentID = studentID;
