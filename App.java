@@ -206,7 +206,7 @@ public class App {
                     System.out.println("Exiting the program. Goodbye!");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please select a number between 1 and 5.");
+                    System.out.println("Invalid choice. Please select a number between 1 and 6.");
             }
             System.out.println();
         } while (choice != 6);
