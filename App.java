@@ -78,10 +78,6 @@ public class App {
 
                     Student newStudent = new Student(studentID, name, age, program, year, section);
 
-
-
-
-
                     // ADD SUBJECTS
                     while (true) {
                         System.out.print("Enter Subject (type 'x' if done): ");
@@ -96,12 +92,6 @@ public class App {
                     System.out.println("Student added successfully!");
                     break;
 
-
-
-
-
-
-
                 case 2: // view all students
                     if (students.isEmpty()) {
                         System.out.println("No Students Available");
@@ -111,12 +101,6 @@ public class App {
                         }
                     }
                     break;
-
-
-
-
-
-
 
                 case 3: // update Student
                     System.out.print("Enter the Student ID of the student you want to update: ");
@@ -207,10 +191,6 @@ public class App {
                         System.out.println("No student found with ID: " + updateID);
                     }
                     break;
-
-
-
-
 
                 case 4:
                     System.out.println("You selected: Delete Student");
