@@ -9,6 +9,7 @@ public class App {
         String program;
         String year;
         String section;
+        String subject;
 
         
         public Student(String studentID, String name, int age, String program, String year, String section) {
@@ -18,11 +19,12 @@ public class App {
             this.program = program;
             this.year = year;
             this.section = section;
+            this.subject = subject;
             
         }
         @Override
         public String toString() {
-            return  "Student ID: " + studentID + "\n" + "Name: " + name + "\n" + "Age: " + age + "\n" + "Program: " + program + "\n" + "Year: " + year + "\n" + "Section: " + section;
+            return  "Student ID: " + studentID + "\n" + "Name: " + name + "\n" + "Age: " + age + "\n" + "Program: " + program + "\n" + "Year: " + year + "\n" + "Section: " + section + "\n" + "Subject" + subject;
 
 
         }
@@ -76,6 +78,9 @@ public class App {
                     System.out.print("Enter Section: ");
                     String section = scan.nextLine();
 
+                    System.out.print("Enter Subject: ");
+                    String subject = scan.nextLine();
+
 
                     students.add(new Student(studentID, name, age, program, year, section));
                     System.out.println("Student added successfully!");
@@ -116,9 +121,10 @@ public class App {
                         System.out.println("3. Program");
                         System.out.println("4. Year");
                         System.out.println("5. Section");
-                        System.out.println("6. All");
-                        System.out.println("7. Cancel");
-                        System.out.print("Enter your choice (1-7): ");
+                        System.out.println("6. Subject");
+                        System.out.println("7. All");
+                        System.out.println("8. Cancel");
+                        System.out.print("Enter your choice (1-8): ");
 
                         int updateChoice = scan.nextInt();
                         scan.nextLine(); 
@@ -158,8 +164,15 @@ public class App {
                                 studentToUpdate.section = new_section;
                                 System.out.println("Section updated successfully!");
                                 break;
+                                  
+                            case 6: //UPDATE SUBJECT
+                                System.out.print("Enter new Subject: ");
+                                String new_subject = scan.nextLine();
+                                studentToUpdate.subject = new_subject;
+                                System.out.println("Subject updated successfully!");
+                                break;
 
-                            case 6: // UPDATE ALL
+                            case 7: // UPDATE ALL
                                 System.out.print("Enter new Name: ");
                                 String allNewName = scan.nextLine();
                                 studentToUpdate.name = allNewName;
@@ -181,12 +194,16 @@ public class App {
                                 String allNew_section = scan.nextLine();
                                 studentToUpdate.section = allNew_section;
 
+                                System.out.print("Enter new Subject: ");
+                                String allNew_subject = scan.nextLine();
+                                studentToUpdate.subject = allNew_subject;
+
 
 
                                 System.out.println("All details updated successfully!");
                                 break;
 
-                            case 7: // CANCEL
+                            case 8: // CANCEL
                                 System.out.println("Update operation canceled.");
                                 break;
 
