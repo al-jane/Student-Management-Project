@@ -86,7 +86,6 @@ public class App {
                     if (name.equals("x")){
                         break;
                     }
-                    //ERROR WHEN TYPED STRING--------------------------------------------
                     System.out.print("| Enter Student Age  : ");
                     String age = scan.nextLine();
                   
@@ -123,7 +122,7 @@ public class App {
 
                     // ADD SUBJECTS
                     while (true) {
-                        System.out.print("| Enter Subject (type 'x' if done)  : ");
+                        System.out.print("| Enter Subjects (type 'x' if done)  : ");
                         String subject = scan.nextLine();
 
                         if (subject.equalsIgnoreCase("x")) {
