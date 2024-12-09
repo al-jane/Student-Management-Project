@@ -192,12 +192,47 @@ public class App {
                     }
                     break;
 
-                case 4:
-                    System.out.println("You selected: Delete Student");
+                case 4: //DELETE A STUDENT
+                    System.out.print("Enter the Student ID of the student you want to delete: ");
+                    String deleteID = scan.nextLine();
+
+                    // Search for the student by Student ID and remove it
+                    boolean studentFound = false;
+                    for (Student student : students) {
+                        if (student.studentID.equals(deleteID)) {
+                            students.remove(student);
+                            System.out.println("Student with ID " + deleteID + " has been deleted successfully.");
+                            studentFound = true;
+                            break;
+                        }
+                    }
+                    if (!studentFound) {
+                        System.out.println("No student found with ID: " + deleteID);
+                    }
                     break;
-                case 5:
-                    System.out.println("You selected: Search Student");
+                case 5: //SEARCH A STUDENT
+                    System.out.print("SEARCH FOR A STUDENT");
+                    System.out.println("Enter the student ID: ");
+
+                    String search_ID = scan.nextLine();
+
+                    //search for the student id and tell the info
+                    Student findstudent = null;
+                    for (Student student : students){
+                        if (student.studentID.equals(search_ID)){
+                            findstudent = student; //if match found, that student will assign to findstudent
+                            break;
+                        } 
+                    }
+                    if (findstudent != null){
+                        System.out.println("Student found:");
+                        System.out.println(findstudent);
+
+                    }else {
+                        System.out.println("No student found with ID: " + search_ID);
+                    }
                     break;
+                    
                 case 6:
                     System.out.println("Exiting the program. Goodbye!");
                     break;
