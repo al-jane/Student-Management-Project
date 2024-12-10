@@ -758,7 +758,7 @@ public class App {
                                 int subjectNumber = Integer.parseInt(input) - 1; // Convert input to integer
                                 if (subjectNumber >= 0 && subjectNumber < student.subjects.size()) {
                                     String subjectName = student.subjects.get(subjectNumber);
-                                    System.out.print("└──> Enter the grade for " + subjectName + ": ");
+                                    System.out.print("└──> Enter the grade for " + subjectName + "(In %, ex. 90): ");
                                     double grade = scan.nextDouble();
                                     scan.nextLine(); // Consume newline character
                                     student.grades.put(subjectName, grade);
