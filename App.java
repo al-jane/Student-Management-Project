@@ -9,6 +9,7 @@ public class App {
         String year;
         String section;
         List<String> subjects;
+        Map<String, Double>grades;
         String status; // regular or irregular student
 
         public Student(String studentID, String name, String age, String program, String year, String section, String status) {
@@ -19,14 +20,45 @@ public class App {
             this.year = year;
             this.section = section;
             this.subjects = new ArrayList<>();
+            this.grades = new HashMap<>();
             this.status = status;
+
+
         }
+        public double convertGradeToGPA(double grade) {
+            // Conversion logic, can be customized based on grading scale
+            int student_grade = (int) grade;
+            if (student_grade >= 93 && student_grade <= 100) return 4.0;
+            if (student_grade >= 90 && student_grade <= 92) return 3.7;
+            if (student_grade >= 87 && student_grade <= 89) return 3.3;
+            if (student_grade >= 83 && student_grade <= 86) return 3.0;
+            if (student_grade >= 80 && student_grade <= 82) return 2.7;
+            if (student_grade >= 77 && student_grade <= 79) return 2.3;
+            if (student_grade >= 73 && student_grade <= 76) return 2.0;
+            if (student_grade >= 70 && student_grade <= 72) return 1.7;
+            if (student_grade >= 67 && student_grade <= 69) return 1.3;
+            if (student_grade >= 65 && student_grade <= 66) return 1.0;
+            return 0.0;
+            
+        }
+
+        public String determinePassFail(double gpa) {
+            if (gpa >= 2.0) return "Passed";
+            return "Failed";
+        }
+
+
 
         @Override
         public String toString() {
             StringBuilder subjectList = new StringBuilder();
             for (int i = 0; i < subjects.size(); i++) {
-                subjectList.append(i + 1).append(". ").append(subjects.get(i)).append("\n");
+                String grade = grades.get(subjects.get(i)) != null ? String.valueOf(grades.get(subjects.get(i))) : "N/A";
+                double gpa = grade.equals("N/A") ? -1 : convertGradeToGPA(Double.parseDouble(grade));
+                String passFail = gpa != -1 ? determinePassFail(gpa) : "N/A";
+                subjectList.append(i + 1).append(". ").append(subjects.get(i)).append(" - Grade: ").append(grade)
+                        .append(", GPA: ").append(gpa != -1 ? gpa : "N/A")
+                        .append(", Status: ").append(passFail).append("\n");
             }
             return "Student ID: " + studentID + "\n" +
                     "Name: " + name + "\n" +
@@ -36,6 +68,7 @@ public class App {
                     "Section: " + section + "\n" +
                     "Status: " + status + "\n" +
                     "Subjects:\n" + subjectList.toString();
+                   
         }
     }
 
@@ -118,7 +151,7 @@ public class App {
     public static void adminMenu(Scanner scan, ArrayList<Student> students) {
         int choice;
 
-        do {
+         do {
             System.out.println("+====================================+");
             System.out.println("|       Admin Management Menu        |");
             System.out.println("+====================================+");
@@ -128,11 +161,15 @@ public class App {
             System.out.println("|   4. Delete Student                |");
             System.out.println("|   5. Search Student                |");
             System.out.println("|   6. Generate User Account         |");
-            System.out.println("|   7. Back                          |");
+            System.out.println("|   7. Add Grade                     |"); // New option for adding grades
+            System.out.println("|   8. View Grades                   |"); // New option for viewing grades
+            System.out.println("|   9. Back                          |");
             System.out.println("+------------------------------------+");
-            System.out.print("└──> Enter your choice (1-7): ");
+            System.out.print("└──> Enter your choice (1-9): ");
             choice = scan.nextInt();
             scan.nextLine();
+
+        
 
             switch (choice) {
                 case 1: // Add Student
@@ -491,14 +528,93 @@ public class App {
                     }
                     break;
 
-                case 7: // Back
+                case 7: // Add Grade
+                    System.out.print("Enter Student ID: ");
+                    String studentID3 = scan.nextLine();
+
+                    Student student = null;
+
+                    // Find student by ID
+                    for (Student s : students) {
+                        if (s.studentID.equals(studentID3)) {
+                            student = s;
+                            break;
+                        }
+                    }
+
+                    if (student != null) {
+                        while (true) {
+                            System.out.println("Current Subjects:");
+                            for (int i = 0; i < student.subjects.size(); i++) {
+                                System.out.println((i + 1) + ". " + student.subjects.get(i));
+                            }
+
+                            System.out.print("Enter the subject number to add a grade for (or type 'x' to exit): ");
+                            String input = scan.nextLine();
+
+                            // Check for exit condition
+                            if (input.equalsIgnoreCase("x")) {
+                                System.out.println("Exiting grade entry for this student.");
+                                break; // Exit the loop
+                            }
+
+                            try {
+                                int subjectNumber = Integer.parseInt(input) - 1; // Convert input to integer
+                                if (subjectNumber >= 0 && subjectNumber < student.subjects.size()) {
+                                    String subjectName = student.subjects.get(subjectNumber);
+                                    System.out.print("Enter the grade for " + subjectName + ": ");
+                                    double grade = scan.nextDouble();
+                                    scan.nextLine(); // Consume newline character
+                                    student.grades.put(subjectName, grade);
+                                    System.out.println("Grade added successfully for " + subjectName + "!");
+                                } else {
+                                    System.out.println("Invalid subject number. Please try again.");
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid subject number or 'x' to exit.");
+                            }
+                        }
+                    } else {
+                        System.out.println("Student not found.");
+                    }
+                    break;
+
+
+                case 8: // View Grades
+                    System.out.print("Enter Student ID: ");
+                    String viewStudentID3 = scan.nextLine();
+                    Student viewStudent = null;
+
+                    for (Student s : students) {
+                        if (s.studentID.equals(viewStudentID3)) {
+                            viewStudent = s;
+                            break;
+                        }
+                    }
+
+                    if (viewStudent != null) {
+                        System.out.println("Grades for " + viewStudent.name + ":");
+                        for (String subject : viewStudent.subjects) {
+                            double grade = viewStudent.grades.getOrDefault(subject, -1.0);
+                            double gpa = grade != -1 ? viewStudent.convertGradeToGPA(grade) : -1;
+                            String passFail = gpa != -1 ? viewStudent.determinePassFail(gpa) : "N/A";
+                            System.out.println(subject + ": Grade: " + (grade != -1 ? grade : "N/A") +
+                                    ", GPA: " + (gpa != -1 ? gpa : "N/A") + ", Status: " + passFail);
+                        }
+                    } else {
+                        System.out.println("Student not found.");
+                    }
+                    break;
+
+
+                case 9: // Back
                     System.out.println("Returning to the main menu...");
                     break;
 
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 7);
+        } while (choice != 9);
     }
 
     public static void userMenu(Scanner scan, ArrayList<Student> students, String studentID) {
