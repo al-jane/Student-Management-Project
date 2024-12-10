@@ -1,10 +1,12 @@
 import java.util.*;
 
+
 public class App {
     static class Student {
         String studentID;
         String name;
         String age;
+        String sex;
         String program;
         String year;
         String section;
@@ -12,10 +14,13 @@ public class App {
         Map<String, Double>grades;
         String status; // regular or irregular student
 
-        public Student(String studentID, String name, String age, String program, String year, String section, String status) {
+
+
+        public Student(String studentID, String name, String age, String program, String year, String section, String status, String sex) {
             this.studentID = studentID;
             this.name = name;
             this.age = age;
+            this.sex = sex;
             this.program = program;
             this.year = year;
             this.section = section;
@@ -63,6 +68,7 @@ public class App {
             return "Student ID: " + studentID + "\n" +
                     "Name: " + name + "\n" +
                     "Age: " + age + "\n" +
+                    "Sex: " + sex + "\n" +
                     "Program: " + program + "\n" +
                     "Year: " + year + "\n" +
                     "Section: " + section + "\n" +
@@ -245,6 +251,13 @@ public class App {
                         break;
                     }
 
+                    System.out.print("└──>Enter Student Sex (Female/Male) : ");
+                    String sex = scan.nextLine();
+                    
+                    if (sex.equalsIgnoreCase("x")) {
+                        break;
+                    }
+
                     System.out.print("└──>Enter Program  : ");
                     String program = scan.nextLine();
                     
@@ -272,7 +285,7 @@ public class App {
                         break;
                     }
 
-                    Student newStudent = new Student(studentID, name, age, program, year, section, status);
+                    Student newStudent = new Student(studentID, name, age, program, year, section, status, sex);
 
                     // ADD SUBJECTS
                     while (true) {
@@ -307,8 +320,10 @@ public class App {
                             System.out.println("+======================================+");
                             System.out.println("| Name: " + student.name);
                             System.out.println("| Age: " + student.age); 
+                            System.out.println("| Sex: " + student.sex);
                             System.out.println("| Program: " + student.program);
                             System.out.println("| Year: " + student.year);
+                            System.out.println("| Status: " + student.status);
                             System.out.println("|--------------------------------------|");
 
                             System.out.println("| Subjects & Grades:");
@@ -358,6 +373,7 @@ public class App {
                         System.out.println("| Student ID: " + studentToUpdate.studentID);
                         System.out.println("| Name: " + studentToUpdate.name);
                         System.out.println("| Age: " + studentToUpdate.age);
+                        System.out.println("| Sex: " + studentToUpdate.sex);
                         System.out.println("| Program: " + studentToUpdate.program);
                         System.out.println("| Year: " + studentToUpdate.year);
                         System.out.println("| Section: " + studentToUpdate.section);
@@ -369,13 +385,14 @@ public class App {
                         System.out.println("+======================================+");
                         System.out.println("|     1. Name                          |");
                         System.out.println("|     2. Age                           |");
-                        System.out.println("|     3. Program                       |");
-                        System.out.println("|     4. Year                          |");
-                        System.out.println("|     5. Section                       |");
-                        System.out.println("|     6. Status                        |");
-                        System.out.println("|     7. Subjects                      |");
-                        System.out.println("|     8. All                           |");
-                        System.out.println("|     9. Cancel                        |");
+                        System.out.println("|     3. Sex                           |");
+                        System.out.println("|     4. Program                       |");
+                        System.out.println("|     5. Year                          |");
+                        System.out.println("|     6. Section                       |");
+                        System.out.println("|     7. Status                        |");
+                        System.out.println("|     8. Subjects                      |");
+                        System.out.println("|     9. All                           |");
+                        System.out.println("|     10. Cancel                       |");
                         System.out.println("+--------------------------------------+");
                         System.out.println("Enter your choice (1-9): ");
                         System.out.print("└──> ");
@@ -409,35 +426,44 @@ public class App {
                                 studentToUpdate.age = newAge;
                                 System.out.println("Age updated successfully!");
                                 break;
-                            case 3: // UPDATE PROGRAM
+
+                            case 3: // UPDATE SEX
+                                System.out.println("+--------------------------------------+");
+                                System.out.print("└──>  Enter new Sex (Female/Male): ");
+                                String newSex = scan.nextLine();
+                                studentToUpdate.sex = newSex;
+                                System.out.println("Sex updated successfully!");
+                                break;
+
+                            case 4: // UPDATE PROGRAM
                                 System.out.println("+--------------------------------------+");
                                 System.out.print("└──>  Enter new Program: ");
                                 String newProgram = scan.nextLine();
                                 studentToUpdate.program = newProgram;
                                 System.out.println("Program updated successfully!");
                                 break;
-                            case 4: // UPDATE YEAR
+                            case 5: // UPDATE YEAR
                                 System.out.println("+--------------------------------------+");
                                 System.out.print("└──>  Enter new Year: ");
                                 String newYear = scan.nextLine();
                                 studentToUpdate.year = newYear;
                                 System.out.println("Year updated successfully!");
                                 break;
-                            case 5: // UPDATE SECTION
+                            case 6: // UPDATE SECTION
                                 System.out.println("+--------------------------------------+");
                                 System.out.print("└──>  Enter new Section: ");
                                 String newSection = scan.nextLine();
                                 studentToUpdate.section = newSection;
                                 System.out.println("Section updated successfully!");
                                 break;
-                            case 6: // UPDATE STATUS
+                            case 7: // UPDATE STATUS
                                 System.out.println("+--------------------------------------+");
                                 System.out.print("└──>  Enter new Status: ");
                                 String newStatus = scan.nextLine();
                                 studentToUpdate.status = newStatus;
                                 System.out.println("Status updated successfully!");
                                 break;
-                            case 7: // UPDATE SUBJECTS
+                            case 8: // UPDATE SUBJECTS
                             boolean updateSubjectLoop = true;
                             while (updateSubjectLoop) {
                                 System.out.println("+--------------------------------------+");
@@ -499,17 +525,25 @@ public class App {
                             }
                             break;
 
-                            case 8: // Update All Details
+                            case 9: // Update All Details
                             System.out.print("└──>Enter new Name: ");
                             studentToUpdate.name = scan.nextLine();
+
                             System.out.print("└──>Enter new Age: ");
                             studentToUpdate.age = scan.nextLine();
+
+                            System.out.print("└──>Enter new Sex: ");
+                            studentToUpdate.sex = scan.nextLine();
+
                             System.out.print("└──>Enter new Program: ");
                             studentToUpdate.program = scan.nextLine();
+
                             System.out.print("└──>Enter new Year: ");
                             studentToUpdate.year = scan.nextLine();
+
                             System.out.print("└──>Enter new Section: ");
                             studentToUpdate.section = scan.nextLine();
+
                             System.out.print("└──>Enter new Status: ");
                             studentToUpdate.status = scan.nextLine();
 
@@ -577,7 +611,7 @@ public class App {
                             break;
 
 
-                            case 9: // Cancel
+                            case 10: // Cancel
                                 System.out.println("|Update operation canceled.");
                                 break;
                             default:
@@ -633,6 +667,7 @@ public class App {
                         System.out.println("| Student ID: " + foundStudent.studentID);
                         System.out.println("| Name: " + foundStudent.name);
                         System.out.println("| Age: " + foundStudent.age);
+                        System.out.println("| Sex: " + foundStudent.sex);
                         System.out.println("| Program: " + foundStudent.program);
                         System.out.println("| Year: " + foundStudent.year);
                         System.out.println("| Section: " + foundStudent.section);
@@ -797,7 +832,7 @@ public class App {
             System.out.println("|   3. Update Password               |");
             System.out.println("|   4. Back                          |");
             System.out.println("+------------------------------------+");
-            System.out.print("└──> Enter your choice (1-3): ");
+            System.out.print("└──> Enter your choice (1-4): ");
             choice = scan.nextInt();
             scan.nextLine();
 
@@ -814,6 +849,7 @@ public class App {
                             System.out.println("| Student ID: " + student.studentID);
                             System.out.println("| Name: " + student.name);
                             System.out.println("| Age: " + student.age);
+                            System.out.println("| Sex: " + student.sex);
                             System.out.println("| Program: " + student.program);
                             System.out.println("| Year: " + student.year);
                             System.out.println("| Section: " + student.section);
