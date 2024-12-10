@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
     static class Student {
@@ -10,7 +8,7 @@ public class App {
         String program;
         String year;
         String section;
-        List<String> subjects; 
+        List<String> subjects;
         String status; // regular or irregular student
 
         public Student(String studentID, String name, String age, String program, String year, String section, String status) {
@@ -38,85 +36,166 @@ public class App {
                     "Section: " + section + "\n" +
                     "Status: " + status + "\n" +
                     "Subjects:\n" + subjectList.toString();
-                    
         }
     }
+
+    static class User {
+        String username;
+        String password;
+
+        public User(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+    }
+
+    static Map<String, User> userAccounts = new HashMap<>();
+    static String adminUsername = "admin";
+    static String adminPassword = "admin123";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Student> students = new ArrayList<>();
+        int mainChoice;
+
+        do {
+            System.out.println("+====================================+");
+            System.out.println("|        Welcome to the System       |");
+            System.out.println("+====================================+");
+            System.out.println("|   1. Admin Login                   |");
+            System.out.println("|   2. User Login                    |");
+            System.out.println("|   3. Exit                          |");
+            System.out.println("+------------------------------------+");
+            System.out.print("└──> Enter your choice (1-3): ");
+            mainChoice = scan.nextInt();
+            scan.nextLine();
+
+            switch (mainChoice) {
+                case 1: // Admin Login
+                    System.out.print("Enter Admin Username: ");
+                    String adminInputUsername = scan.nextLine();
+                    System.out.print("Enter Admin Password: ");
+                    String adminInputPassword = scan.nextLine();
+
+                    if (adminInputUsername.equals(adminUsername) && adminInputPassword.equals(adminPassword)) {
+                        adminMenu(scan, students);
+                    } else {
+                        System.out.println("Invalid admin credentials!");
+                    }
+                    break;
+
+                case 2: // User Login
+                    System.out.print("Enter Student ID: ");
+                    String studentID = scan.nextLine();
+
+                    if (userAccounts.containsKey(studentID)) {
+                        User user = userAccounts.get(studentID);
+                        System.out.print("Enter Password: ");
+                        String password = scan.nextLine();
+
+                        if (user.password.equals(password)) {
+                            userMenu(scan, students, studentID);
+                        } else {
+                            System.out.println("Invalid password!");
+                        }
+                    } else {
+                        System.out.println("No account found for the given Student ID.");
+                    }
+                    break;
+
+                case 3: // Exit
+                    System.out.println("Exiting the system. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please select from 1-3.");
+            }
+        } while (mainChoice != 3);
+
+        scan.close();
+    }
+
+    public static void adminMenu(Scanner scan, ArrayList<Student> students) {
         int choice;
 
         do {
             System.out.println("+====================================+");
-            System.out.println("|     Student Management System      |");
+            System.out.println("|       Admin Management Menu        |");
             System.out.println("+====================================+");
             System.out.println("|   1. Add Student                   |");
             System.out.println("|   2. View All Students             |");
             System.out.println("|   3. Update Student                |");
             System.out.println("|   4. Delete Student                |");
-            System.out.println("|   5. Search a Student              |");
-            System.out.println("|   6. Exit                          |");
+            System.out.println("|   5. Search Student                |");
+            System.out.println("|   6. Generate User Account         |");
+            System.out.println("|   7. Back                          |");
             System.out.println("+------------------------------------+");
-            System.out.print("└──>Enter your choice (1-6): ");
-
-            while (!scan.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number between 1 and 7.");
-                scan.next();
-            }
+            System.out.print("└──> Enter your choice (1-7): ");
             choice = scan.nextInt();
-            scan.nextLine(); 
+            scan.nextLine();
 
             switch (choice) {
                 case 1: // Add Student
-                    
-
                     System.out.println("+====================================+");
                     System.out.println("|          Add New Student           |");
                     System.out.println("+------------------------------------+");
                     System.out.println("└──>Note: Type 'x' to cancel");
                     System.out.print("└──>Enter Student ID  : ");
                     String studentID = scan.nextLine();
-                    if (studentID.equals("x")){
+
+                    if (studentID.equalsIgnoreCase("x")) {
                         break;
                     }
 
+                    // Check if the ID is already registered
+                    boolean idExists = false;
+                    for (Student student : students) {
+                        if (student.studentID.equals(studentID)) {
+                            idExists = true;
+                            break;
+                        }
+                    }
+
+                    if (idExists) {
+                        System.out.println("└──>Student ID already registered. Returning to the main menu.");
+                        break; // Exit the case and go back to the main menu
+                    }
+
+                    // Proceed if the ID is unique
                     System.out.print("| Enter Student Name (Full Name)  : ");
                     String name = scan.nextLine();
-                    if (name.equals("x")){
+                    if (name.equalsIgnoreCase("x")) {
                         break;
                     }
                     System.out.print("| Enter Student Age  : ");
                     String age = scan.nextLine();
-                  
-                    if (age.equals("x")){
+                    if (age.equalsIgnoreCase("x")) {
                         break;
                     }
 
                     System.out.print("| Enter Program  : ");
                     String program = scan.nextLine();
-                    if (program.equals("x")){
+                    if (program.equalsIgnoreCase("x")) {
                         break;
                     }
 
                     System.out.print("| Enter Year  : ");
                     String year = scan.nextLine();
-                    if (year.equals("x")){
+                    if (year.equalsIgnoreCase("x")) {
                         break;
                     }
 
                     System.out.print("| Enter Section  : ");
                     String section = scan.nextLine();
-                    if (section.equals("x")){
+                    if (section.equalsIgnoreCase("x")) {
                         break;
                     }
 
                     System.out.print("| Enter status (Regular/Irregular)  : ");
                     String status = scan.nextLine();
-                    if (status.equals("x")){
+                    if (status.equalsIgnoreCase("x")) {
                         break;
                     }
-                    
 
                     Student newStudent = new Student(studentID, name, age, program, year, section, status);
 
@@ -135,8 +214,10 @@ public class App {
                     System.out.println("└──>Student added successfully!");
                     break;
 
-                case 2: // View all students
-                    if (students.isEmpty()) {
+
+
+                case 2: // View All Students
+                     if (students.isEmpty()) {
                         System.out.println("No Students Available");
                     } else {
                         for (Student student : students) {
@@ -273,7 +354,6 @@ public class App {
                             studentToUpdate.name = scan.nextLine();
                             System.out.print("Enter new Age: ");
                             studentToUpdate.age = scan.nextLine();
-                            scan.nextLine(); 
                             System.out.print("Enter new Program: ");
                             studentToUpdate.program = scan.nextLine();
                             System.out.print("Enter new Year: ");
@@ -352,7 +432,7 @@ public class App {
                     }
                     break;
 
-                case 4: // DELETE A STUDENT
+                case 4: // Delete Student
                     System.out.print("Enter the Student ID of the student you want to delete: ");
                     String deleteID = scan.nextLine();
 
@@ -371,8 +451,7 @@ public class App {
                         System.out.println("No student found with ID: " + deleteID);
                     }
                     break;
-
-                case 5: // Search a Student
+                case 5: // Search Student
                     System.out.print("Enter the Student ID you want to search: ");
                     String searchID = scan.nextLine();
                     Student foundStudent = null;
@@ -391,16 +470,76 @@ public class App {
                     }
                     break;
 
+                case 6: // Generate User Account
+                    System.out.print("Enter Student ID to create user account: ");
+                    String id = scan.nextLine();
 
-                case 6: // Exit
-                    System.out.println("Exiting the program. Goodbye!");
+                    boolean exists = false;
+                    for (Student student : students) {
+                        if (student.studentID.equals(id)) {
+                            exists = true;
+                            String generatedPassword = UUID.randomUUID().toString().substring(0, 8);
+                            userAccounts.put(id, new User(id, generatedPassword));
+                            System.out.println("Account created successfully!");
+                            System.out.println("Username: " + id + " | Password: " + generatedPassword);
+                            break;
+                        }
+                    }
+
+                    if (!exists) {
+                        System.out.println("No student found with the given ID.");
+                    }
+                    break;
+
+                case 7: // Back
+                    System.out.println("Returning to the main menu...");
                     break;
 
                 default:
-                    System.out.println("Invalid choice. Please enter a number between 1 and 7.");
+                    System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
+    }
 
-        scan.close();
+    public static void userMenu(Scanner scan, ArrayList<Student> students, String studentID) {
+        int choice;
+
+        do {
+            System.out.println("+====================================+");
+            System.out.println("|          User Management Menu      |");
+            System.out.println("+====================================+");
+            System.out.println("|   1. View My Info                  |");
+            System.out.println("|   2. Update Password               |");
+            System.out.println("|   3. Back                          |");
+            System.out.println("+------------------------------------+");
+            System.out.print("└──> Enter your choice (1-3): ");
+            choice = scan.nextInt();
+            scan.nextLine();
+
+            switch (choice) {
+                case 1: // View My Info
+                    for (Student student : students) {
+                        if (student.studentID.equals(studentID)) {
+                            System.out.println(student);
+                            break;
+                        }
+                    }
+                    break;
+
+                case 2: // Update Password
+                    System.out.print("Enter New Password: ");
+                    String newPassword = scan.nextLine();
+                    userAccounts.get(studentID).password = newPassword;
+                    System.out.println("Password updated successfully!");
+                    break;
+
+                case 3: // Back
+                    System.out.println("Returning to the main menu...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 3);
     }
 }
