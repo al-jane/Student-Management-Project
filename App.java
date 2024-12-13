@@ -101,11 +101,10 @@ public class App {
             System.out.println("+====================================+");
             System.out.println("|        Welcome to the System       |");
             System.out.println("+====================================+");
-            System.out.println("|   1. Admin Login                   |");
-            System.out.println("|   2. Student Login                 |");
+            System.out.println("|   1. Login                         |");
             System.out.println("|   3. Exit                          |");
             System.out.println("+------------------------------------+");
-            System.out.print("└──> Enter your choice (1-3): ");
+            System.out.print("└──> Enter your choice (1-2): ");
             
 
             String input = scan.nextLine();
@@ -113,62 +112,64 @@ public class App {
             // check if the input is numeric
             if (input.matches("\\d+")) { 
                 mainChoice = Integer.parseInt(input); // convert to integer
-                if (mainChoice < 1 || mainChoice > 3) { // validate range
+                if (mainChoice < 1 || mainChoice > 2) { // validate range
                     System.out.println("\n");
-                    System.out.println("Error: Invalid input. Please choose an option from the list (1-3).");
+                    System.out.println("Error: Invalid input. Please choose an option from the list (1-2).");
                     System.out.println("Note: Ensure you enter a number and not any other characters.\n");
 
                     mainChoice = -1; //reset to stay in the loop
                 }
             } else {
-                System.out.println("\n Invalid input. Please enter a valid number between 1 and 3.");
+                System.out.println("\n Invalid input. Please enter a valid number between 1 and 2.");
                 mainChoice = -1; // Reset to stay in the loop
             }
             
 
 
             switch (mainChoice) {
-                case 1: // Admin Login
+                case 1: // Login
+
+                    //                  if (usernameID.equals(adminUsername) && admin_password.equals(adminPassword)) {
+                      //  adminMenu(scan, students);
+
                     
-                    System.out.print("└──> Enter Admin Username: ");
-                    String adminInputUsername = scan.nextLine();
-                    System.out.print("└──> Enter Admin Password: ");
-                    String adminInputPassword = scan.nextLine();
+                    System.out.print("└──> Enter Username/ID: ");
+                    String usernameID = scan.nextLine();
 
-                    if (adminInputUsername.equals(adminUsername) && adminInputPassword.equals(adminPassword)) {
-                        adminMenu(scan, students);
-                    } else {
-                        System.out.println("\n Invalid admin credentials!");
-                    }
-                    break;
 
-                case 2: // student Login
-                    System.out.print("Enter Student ID: ");
-                    String studentID = scan.nextLine();
-
-                    if (userAccounts.containsKey(studentID)) {
-                        User user = userAccounts.get(studentID);
-                        System.out.print("Enter Password: ");
-                        String password = scan.nextLine();
-
-                        if (user.password.equals(password)) {
-                            userMenu(scan, students, studentID);
-                        } else {
-                            System.out.println("Invalid password!");
+                    if (usernameID.equals(adminUsername)){
+                        System.out.print("└──> Enter Password: ");
+                        String admin_password = scan.nextLine();
+                        if(admin_password.equals(adminPassword)){
+                            adminMenu(scan, students);
+                        }else{
+                            System.out.println("Invalid Password");
                         }
-                    } else {
-                        System.out.println("No account found for the given Student ID.");
+        
+                    }else if(userAccounts.containsKey(usernameID)){
+                        User user = userAccounts.get(usernameID);
+                        System.out.print("Enter password: ");
+                        String user_password = scan.nextLine();
+
+                        if (user.password.equals(user_password)){
+                            userMenu(scan, students, usernameID);
+                        }else{
+                            System.out.println("Invalid password");
+                        }
+                    }else {
+                        System.out.println("\n Invalid credentials!");
                     }
                     break;
 
-                case 3: // Exit
+                
+                case 2: // Exit
                     System.out.println("Exiting the system. Goodbye!");
                     break;
 
                 default:
                     System.out.println("Invalid choice. Please select from 1-3.");
             }
-        } while (mainChoice != 3);
+        } while (mainChoice != 2);
 
         scan.close();
     }
