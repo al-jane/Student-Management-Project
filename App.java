@@ -31,7 +31,7 @@ public class App {
 
         }
         public double convertGradeToGPA(double grade) {
-            // Conversion logic, can be customized based on grading scale
+            // converting % grade to GPA 
             int student_grade = (int) grade;
             if (student_grade >= 93 && student_grade <= 100) return 4.0;
             if (student_grade >= 90 && student_grade <= 92) return 3.7;
@@ -43,7 +43,7 @@ public class App {
             if (student_grade >= 70 && student_grade <= 72) return 1.7;
             if (student_grade >= 67 && student_grade <= 69) return 1.3;
             if (student_grade >= 65 && student_grade <= 66) return 1.0;
-            return 0.0;
+            return 0.0; //other grades
             
         }
 
@@ -102,7 +102,7 @@ public class App {
             System.out.println("|        Welcome to the System       |");
             System.out.println("+====================================+");
             System.out.println("|   1. Admin Login                   |");
-            System.out.println("|   2. User Login                    |");
+            System.out.println("|   2. Student Login                 |");
             System.out.println("|   3. Exit                          |");
             System.out.println("+------------------------------------+");
             System.out.print("└──> Enter your choice (1-3): ");
@@ -111,7 +111,7 @@ public class App {
             String input = scan.nextLine();
             System.out.println("+------------------------------------+");
             // check if the input is numeric
-            if (input.matches("\\d+")) { // regex ensures input contains only digits
+            if (input.matches("\\d+")) { 
                 mainChoice = Integer.parseInt(input); // convert to integer
                 if (mainChoice < 1 || mainChoice > 3) { // validate range
                     System.out.println("\n");
@@ -186,8 +186,8 @@ public class App {
             System.out.println("|   4. Delete Student                |");
             System.out.println("|   5. Search Student                |");
             System.out.println("|   6. Generate Student Account      |");
-            System.out.println("|   7. Add Grade                     |"); // New option for adding grades
-            System.out.println("|   8. View Grades                   |"); // New option for viewing grades
+            System.out.println("|   7. Add Grade                     |"); 
+            System.out.println("|   8. View Grades                   |"); 
             System.out.println("|   9. Back                          |");
             System.out.println("+------------------------------------+");
             System.out.print("└──> Enter your choice (1-9): ");
@@ -195,7 +195,7 @@ public class App {
             String input2 = scan.nextLine();
 
                     // Check if the input is numeric
-            if (input2.matches("\\d+")) { // Regex ensures input contains only digits
+            if (input2.matches("\\d+")) { 
                 choice = Integer.parseInt(input2); // Convert to integer
                 if (choice < 1 || choice > 9) { // Validate range
                     System.out.println("Invalid choice. Please enter a number between 1 and 9");
@@ -223,7 +223,7 @@ public class App {
                         break;
                     }
 
-                    // Check if the ID is already registered
+                    // check if the ID is already registered
                     boolean idExists = false;
                     for (Student student : students) {
                         if (student.studentID.equals(studentID)) {
@@ -234,10 +234,10 @@ public class App {
 
                     if (idExists) {
                         System.out.println("└──>Student ID already registered. Returning to the main menu.");
-                        break; // Exit the case and go back to the main menu
+                        break; // exit the case and go back to the main menu
                     }
 
-                    // Proceed if the ID is unique
+                    // go on if the ID is unique
                     System.out.print("└──>Enter Student Name (Full Name)  : ");
                     String name = scan.nextLine();
                    
@@ -328,7 +328,7 @@ public class App {
 
                             System.out.println("| Subjects & Grades:");
                             for (String subject : student.subjects) {
-                                // Check if a grade has been entered for the subject
+                                // check if a grade has been entered for the subject
                                 double grade = student.grades.getOrDefault(subject, -1.0);
                                 double gpa;
                                 String passFail;
@@ -399,9 +399,9 @@ public class App {
 
                         String input3 = scan.nextLine();
                         
-                        // Check if the input is numeric
-                        if (input3.matches("\\d+")) { // Regex ensures input contains only digits
-                            updateChoice = Integer.parseInt(input3); // Convert to integer
+                        // check if the input is numeric
+                        if (input3.matches("\\d+")) { 
+                            updateChoice = Integer.parseInt(input3); // convert to integer
                             if (updateChoice < 1 || updateChoice > 9) { // Validate range
                                 System.out.println("Invalid choice. Please enter a number between 1 and 9.");
                                 updateChoice = -1; // Reset to stay in the loop
@@ -490,7 +490,7 @@ public class App {
                                     case 1: // edit Subject
                                         System.out.print("| Enter the number of the subject to edit: ");
                                         int editNumber = scan.nextInt() - 1;
-                                        scan.nextLine(); // Consume newline character
+                                        scan.nextLine(); 
                                         if (editNumber >= 0 && editNumber < studentToUpdate.subjects.size()) {
                                             System.out.print("└──>Enter new subject name: ");
                                             String newSubject = scan.nextLine();
@@ -689,17 +689,17 @@ public class App {
                     boolean studentExists = false;
                     boolean accountExists = false;
 
-                    // Check if the student exists in the students list
+                    // check if the student exists in the students list
                     for (Student student : students) {
                         if (student.studentID.equals(id)) {
                             studentExists = true;
-                            // Check if an account already exists for this student ID
+                            // check if an account already exists for this student ID
                             if (userAccounts.containsKey(id)) {
                                 accountExists = true;
                                 System.out.println("|An account already exists for this student ID.");
                                 break;
                             } else {
-                                // Generate a new password and create the account
+                                // generate a new password and create the account
                                 String generatedPassword = UUID.randomUUID().toString().substring(0, 8);
                                 userAccounts.put(id, new User(id, generatedPassword));
                                 System.out.println("└──>Account created successfully!");
@@ -758,9 +758,9 @@ public class App {
                                 int subjectNumber = Integer.parseInt(input) - 1; // Convert input to integer
                                 if (subjectNumber >= 0 && subjectNumber < student.subjects.size()) {
                                     String subjectName = student.subjects.get(subjectNumber);
-                                    System.out.print("└──> Enter the grade for " + subjectName + "(In %, ex. 90): ");
+                                    System.out.print("└──> Enter the grade for " + subjectName + "(%) : ");
                                     double grade = scan.nextDouble();
-                                    scan.nextLine(); // Consume newline character
+                                    scan.nextLine(); 
                                     student.grades.put(subjectName, grade);
                                     System.out.println("|Grade added successfully for " + subjectName + "!");
                                 } else {
