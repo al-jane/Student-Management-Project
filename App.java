@@ -95,14 +95,14 @@ public class App {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Student> students = new ArrayList<>();
-        int mainChoice = -1; //initialized invalid val
+        int mainChoice = -1; 
 
         do {
             System.out.println("+====================================+");
             System.out.println("|        Welcome to the System       |");
             System.out.println("+====================================+");
             System.out.println("|   1. Login                         |");
-            System.out.println("|   3. Exit                          |");
+            System.out.println("|   2. Exit                          |");
             System.out.println("+------------------------------------+");
             System.out.print("└──> Enter your choice (1-2): ");
             
@@ -121,16 +121,13 @@ public class App {
                 }
             } else {
                 System.out.println("\n Invalid input. Please enter a valid number between 1 and 2.");
-                mainChoice = -1; // Reset to stay in the loop
+                mainChoice = -1; // rreset to stay in the loop
             }
             
 
 
             switch (mainChoice) {
                 case 1: // Login
-
-                    //                  if (usernameID.equals(adminUsername) && admin_password.equals(adminPassword)) {
-                      //  adminMenu(scan, students);
 
                     
                     System.out.print("└──> Enter Username/ID: ");
@@ -148,7 +145,7 @@ public class App {
         
                     }else if(userAccounts.containsKey(usernameID)){
                         User user = userAccounts.get(usernameID);
-                        System.out.print("Enter password: ");
+                        System.out.print("└──> Enter password: ");
                         String user_password = scan.nextLine();
 
                         if (user.password.equals(user_password)){
@@ -184,26 +181,25 @@ public class App {
             System.out.println("|   1. Add Student                   |");
             System.out.println("|   2. View All Students             |");
             System.out.println("|   3. Update Student                |");
-            System.out.println("|   4. Delete Student                |");
-            System.out.println("|   5. Search Student                |");
-            System.out.println("|   6. Generate Student Account      |");
-            System.out.println("|   7. Add Grade                     |"); 
-            System.out.println("|   8. View Grades                   |"); 
-            System.out.println("|   9. Back                          |");
+            System.out.println("|   4. Search Student                |");
+            System.out.println("|   5. Generate Student Account      |");
+            System.out.println("|   6. Add Grade                     |"); 
+            System.out.println("|   7. View Grades                   |"); 
+            System.out.println("|   8. Back                          |");
             System.out.println("+------------------------------------+");
-            System.out.print("└──> Enter your choice (1-9): ");
+            System.out.print("└──> Enter your choice (1-8): ");
             
             String input2 = scan.nextLine();
 
-                    // Check if the input is numeric
+                    // check if the input is a #
             if (input2.matches("\\d+")) { 
-                choice = Integer.parseInt(input2); // Convert to integer
-                if (choice < 1 || choice > 9) { // Validate range
-                    System.out.println("Invalid choice. Please enter a number between 1 and 9");
+                choice = Integer.parseInt(input2); // convert to integer
+                if (choice < 1 || choice > 8) { 
+                    System.out.println("Invalid choice. Please enter a number between 1 and 8");
                     choice = -1; // Reset to stay in the loop
                 }
             } else {
-                System.out.println("Invalid input. Please enter a valid number between 1 and 9");
+                System.out.println("Invalid input. Please enter a valid number between 1 and 8");
                 choice = -1; // Reset to stay in the loop
             }
 
@@ -400,16 +396,16 @@ public class App {
 
                         String input3 = scan.nextLine();
                         
-                        // check if the input is numeric
+                        // check if the input is a #
                         if (input3.matches("\\d+")) { 
                             updateChoice = Integer.parseInt(input3); // convert to integer
-                            if (updateChoice < 1 || updateChoice > 9) { // Validate range
+                            if (updateChoice < 1 || updateChoice > 9) { 
                                 System.out.println("Invalid choice. Please enter a number between 1 and 9.");
-                                updateChoice = -1; // Reset to stay in the loop
+                                updateChoice = -1; // reset to stay in the loop
                             }
                         } else {
                             System.out.println("Invalid input. Please enter a valid number between 1 and 9.");
-                            updateChoice = -1; // Reset to stay in the loop
+                            updateChoice = -1; // rreset to stay in the loop
                         }
 
                         switch (updateChoice) {
@@ -481,43 +477,76 @@ public class App {
                                 System.out.println("|  3. Add New Subject");
                                 System.out.println("|  4. Cancel");
                                 System.out.println("+--------------------------------------+");
-                                System.out.print("└──>Enter your choice: ");
-                                int subjectChoice = scan.nextInt();
-                                scan.nextLine();
+                                int subjectChoice = -1; 
+
+
+                                while (true) { 
+                                    try {
+                                        System.out.print("└──>Please select an action (1-4): ");
+                                        subjectChoice = Integer.parseInt(scan.nextLine()); // Parse input
+                                        if (subjectChoice >= 1 && subjectChoice <= 4) {
+                                            break; 
+                                        } else {
+                                            System.out.print("|Invalid choice. Please enter a number between 1 and 4.");
+                                            System.out.print("└──>Please select an action (1-4): ");
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("|Invalid input. Please enter a number.");
+                                    }
+                                }
                                 System.out.println("+--------------------------------------+");
 
 
                                 switch (subjectChoice) {
                                     case 1: // edit Subject
-                                        System.out.print("| Enter the number of the subject to edit: ");
-                                        int editNumber = scan.nextInt() - 1;
-                                        scan.nextLine(); 
-                                        if (editNumber >= 0 && editNumber < studentToUpdate.subjects.size()) {
-                                            System.out.print("└──>Enter new subject name: ");
-                                            String newSubject = scan.nextLine();
-                                            studentToUpdate.subjects.set(editNumber, newSubject);
-                                            System.out.println("|Subject updated successfully!");
-                                        } else {
-                                            System.out.println("|Invalid subject number.");
-                                        }
-                                        break;
-                                    case 2: // Delete Subject
+                                        Boolean running = true;
+                                        while (running) { // loop until valid input is provided
+                                                try {
+                                                    System.out.print("└──>Enter the number of the subject to edit: ");
+                                                    int editNumber = Integer.parseInt(scan.nextLine()) - 1; // Read input and parse it as an integer
+
+                                                    if (editNumber >= 0 && editNumber < studentToUpdate.subjects.size()) {
+                                                        System.out.print("└──> Enter new subject name: ");
+                                                        String newSubject = scan.nextLine();
+                                                        studentToUpdate.subjects.set(editNumber, newSubject);
+                                                        System.out.println("| Subject updated successfully!");
+                                                        running = false; // exit the loop after successful update
+                                                    } else {
+                                                        System.out.println("| Invalid subject number.");
+                                                    }
+                                                } catch (NumberFormatException e) {
+                                                    System.out.println("| Invalid input. Please enter a number: ");
+                                                    // handle input that is not int
+                                                }
+                                            }break;
+
+
+                                    case 2: // DELETE SUBJECT
                                         System.out.print("└──>Enter the number of the subject to delete: ");
-                                        int deleteNumber = scan.nextInt() - 1;
-                                        if (deleteNumber >= 0 && deleteNumber < studentToUpdate.subjects.size()) {
-                                            studentToUpdate.subjects.remove(deleteNumber);
-                                            System.out.println("|Subject deleted successfully!");
-                                        } else {
-                                            System.out.println("|Invalid subject number.");
-                                        }
-                                        break;
-                                    case 3: // Add New Subject
+                                        int deleteNumber = -1;
+
+                                        while (true) {
+                                            try {
+                                                deleteNumber = Integer.parseInt(scan.nextLine()) - 1; // Parse input and subtract 1
+                                                if (deleteNumber >= 0 && deleteNumber < studentToUpdate.subjects.size()) {
+                                                    studentToUpdate.subjects.remove(deleteNumber);
+                                                    System.out.println("|Subject deleted successfully!");
+                                                    break; // exit loop after successful deletion
+                                                } else {
+                                                    System.out.print("└──>Invalid subject number. Please enter a valid number: ");
+                                                }
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("|Invalid input. Please enter a number: ");
+                                                
+                                            }
+                                        }break;
+                                    case 3: //ADD NEW SUBJ
                                         System.out.print("└──>Enter new subject: ");
                                         String newSubjectName = scan.nextLine();
                                         studentToUpdate.subjects.add(newSubjectName);
                                         System.out.println("|Subject added successfully!");
                                         break;
-                                    case 4: // Cancel
+                                    case 4: // CANCEL CHOOSING
                                         updateSubjectLoop = false;
                                         System.out.println("|Subject update canceled.");
                                         break;
@@ -526,7 +555,7 @@ public class App {
                             }
                             break;
 
-                            case 9: // Update All Details
+                            case 9: // UPDATE ALL THE DETAILS OF THE STUDENT
                             System.out.print("└──>Enter new Name: ");
                             studentToUpdate.name = scan.nextLine();
 
@@ -549,11 +578,12 @@ public class App {
                             studentToUpdate.status = scan.nextLine();
 
                        
-                            boolean updatesubjectloop = true;
-                            while (updatesubjectloop) {
+                            boolean running_subject = true;
+                            while (running_subject) {
                                 System.out.println("+--------------------------------------+");
                                 System.out.println("|           Current Subjects           |");
                                 System.out.println("+--------------------------------------+");
+
 
                                 for (int i = 0; i < studentToUpdate.subjects.size(); i++) {
                                     System.out.println((i + 1) + ". " + studentToUpdate.subjects.get(i));
@@ -564,49 +594,83 @@ public class App {
                                 System.out.println("|  3. Add New Subject");
                                 System.out.println("|  4. Cancel");
                                 System.out.println("+--------------------------------------+");
-                                System.out.print("└──>Enter your choice: ");
-                                int subjectChoice = scan.nextInt();
-                                scan.nextLine();
+                                int subjectChoice = -1; 
+
+
+                                while (true) { 
+                                    try {
+                                        System.out.print("└──>Please select an action (1-4): ");
+                                        subjectChoice = Integer.parseInt(scan.nextLine()); // Parse input
+                                        if (subjectChoice >= 1 && subjectChoice <= 4) {
+                                            break; 
+                                        } else {
+                                            System.out.print("|Invalid choice. Please enter a number between 1 and 4.");
+                                            System.out.print("└──>Please select an action (1-4): ");
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("|Invalid input. Please enter a number.");
+                                    }
+                                }
                                 System.out.println("+--------------------------------------+");
 
+
                                 switch (subjectChoice) {
-                                    case 1: // edit Subject
-                                        System.out.print("└──>Enter the number of the subject to edit: ");
-                                        int editNumber = scan.nextInt() - 1;
-                                        scan.nextLine(); // consume newline character
-                                        if (editNumber >= 0 && editNumber < studentToUpdate.subjects.size()) {
-                                            System.out.print("└──>Enter new subject name: ");
-                                            String newSubject = scan.nextLine();
-                                            studentToUpdate.subjects.set(editNumber, newSubject);
-                                            System.out.println("|Subject updated successfully!");
-                                        } else {
-                                            System.out.println("|Invalid subject number.");
-                                        }
-                                        break;
-                                    case 2: // Delete Subject
+                                    case 1: // EDIT SUBJECT
+                                        Boolean running = true;
+                                        while (running) { // Loop until valid input is provided
+                                                try {
+                                                    System.out.print("└──>Enter the number of the subject to edit: ");
+                                                    int editNumber = Integer.parseInt(scan.nextLine()) - 1; // Read input and parse it as an integer
+
+                                                    if (editNumber >= 0 && editNumber < studentToUpdate.subjects.size()) {
+                                                        System.out.print("└──> Enter new subject name: ");
+                                                        String newSubject = scan.nextLine();
+                                                        studentToUpdate.subjects.set(editNumber, newSubject);
+                                                        System.out.println("| Subject updated successfully!");
+                                                        running = false; // exit the loop after successful update
+                                                    } else {
+                                                        System.out.println("| Invalid subject number.");
+                                                    }
+                                                } catch (NumberFormatException e) {
+                                                    System.out.println("| Invalid input. Please enter a number: ");
+                                                    // handle input that is not an integer
+                                                }
+                                            }break;
+
+
+                                    case 2: // DELETE SUBJ
                                         System.out.print("└──>Enter the number of the subject to delete: ");
-                                        int deleteNumber = scan.nextInt() - 1;
-                                        if (deleteNumber >= 0 && deleteNumber < studentToUpdate.subjects.size()) {
-                                            studentToUpdate.subjects.remove(deleteNumber);
-                                            System.out.println("|Subject deleted successfully!");
-                                        } else {
-                                            System.out.println("|Invalid subject number.");
-                                        }
-                                        break;
-                                    case 3: // Add New Subject
+                                        int deleteNumber = -1;
+
+                                        while (true) {
+                                            try {
+                                                deleteNumber = Integer.parseInt(scan.nextLine()) - 1; // Parse input and subtract 1
+                                                if (deleteNumber >= 0 && deleteNumber < studentToUpdate.subjects.size()) {
+                                                    studentToUpdate.subjects.remove(deleteNumber);
+                                                    System.out.println("|Subject deleted successfully!");
+                                                    break; // exit loop after successful deletion
+                                                } else {
+                                                    System.out.print("└──>Invalid subject number. Please enter a valid number: ");
+                                                }
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("|Invalid input. Please enter a number: ");
+                                                
+                                            }
+                                        }break;
+                                    case 3: // add New Subject
                                         System.out.print("└──>Enter new subject: ");
                                         String newSubjectName = scan.nextLine();
                                         studentToUpdate.subjects.add(newSubjectName);
                                         System.out.println("|Subject added successfully!");
                                         break;
-                                    case 4: // Cancel
-                                        updatesubjectloop = false;
+                                    case 4: // cancel
+                                        running_subject = false;
                                         System.out.println("|Subject update canceled.");
                                         break;
-                                    default:
-                                        System.out.println("|Invalid choice. Please try again.");
+                                    
                                 }
                             }
+                            
 
                             System.out.println("|All details updated successfully!");
                             break;
@@ -623,30 +687,8 @@ public class App {
                     }
                     break;
 
-                case 4: // Delete Student
-                    System.out.println("+--------------------------------------+");
-                    System.out.println("|           Delete Student             |");
-                    System.out.println("+--------------------------------------+");                   
 
-                    System.out.print("└──>Enter the Student ID of the student you want to delete: ");
-                    String deleteID = scan.nextLine();
-
-                    Student studentToDelete = null;
-                    for (Student student : students) {
-                        if (student.studentID.equals(deleteID)) {
-                            studentToDelete = student;
-                            break;
-                        }
-                    }
-
-                    if (studentToDelete != null) {
-                        students.remove(studentToDelete);
-                        System.out.println("|--Student with ID " + deleteID + " has been deleted.");
-                    } else {
-                        System.out.println("|No student found with ID: " + deleteID);
-                    }
-                    break;
-                case 5: // Search Student
+                case 4: // search student
                     System.out.println("+--------------------------------------+");
                     System.out.println("|           Search Student             |");
                     System.out.println("+--------------------------------------+");   
@@ -680,7 +722,7 @@ public class App {
                     }
                     break;
 
-                case 6: // Generate User Account
+                case 5: // generate user account
                     System.out.println("+--------------------------------------+");
                     System.out.println("|       Generate Student Account       |");
                     System.out.println("+--------------------------------------+");   
@@ -718,7 +760,7 @@ public class App {
                     break;
 
 
-                case 7: // Add Grade
+                case 6: // Add Grade
                     System.out.println("+--------------------------------------+");
                     System.out.println("|              Add Grade               |");
                     System.out.println("+--------------------------------------+"); 
@@ -727,7 +769,7 @@ public class App {
 
                     Student student = null;
 
-                    // Find student by ID
+                    // find student by ID
                     for (Student s : students) {
                         if (s.studentID.equals(studentID3)) {
                             student = s;
@@ -749,14 +791,14 @@ public class App {
                             System.out.print("└──> ");
                             String input = scan.nextLine();
 
-                            // Check for exit condition
+                            // check for exit condition
                             if (input.equalsIgnoreCase("x")) {
                                 System.out.println("|Exiting grade entry for this student.");
-                                break; // Exit the loop
+                                break; // exit the loop
                             }
 
                             try {
-                                int subjectNumber = Integer.parseInt(input) - 1; // Convert input to integer
+                                int subjectNumber = Integer.parseInt(input) - 1; // convert input to integer
                                 if (subjectNumber >= 0 && subjectNumber < student.subjects.size()) {
                                     String subjectName = student.subjects.get(subjectNumber);
                                     System.out.print("└──> Enter the grade for " + subjectName + "(%) : ");
@@ -777,7 +819,7 @@ public class App {
                     break;
 
 
-                case 8: // View Grades
+                case 7: // view grades
                     System.out.println("+--------------------------------------+"); 
                     System.out.println("|             View Grades              |");
                     System.out.println("+--------------------------------------+"); 
@@ -811,13 +853,13 @@ public class App {
                     break;
 
 
-                case 9: // Back
+                case 8: // Back
                     System.out.println("└──>Returning to the main menu...");
                     break;
 
                 
             }
-        } while (choice != 9);
+        } while (choice != 8);
        
     }
 
@@ -864,7 +906,7 @@ public class App {
                     }
                     break;
 
-                case 2: //view my Grades
+                case 2: //view my grades
                     System.out.println("+---------------------------------------+"); 
                     System.out.println("|            View My Grades             |");
                     System.out.println("+---------------------------------------+");
